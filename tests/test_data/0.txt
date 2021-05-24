@@ -1,0 +1,258 @@
+25763772|t|DCTN4 as a modifier of chronic Pseudomonas aeruginosa infection in cystic fibrosis
+25763772|a|Pseudomonas aeruginosa (Pa) infection in cystic fibrosis (CF) patients is associated with worse long-term pulmonary disease and shorter survival, and chronic Pa infection (CPA) is associated with reduced lung function, faster rate of lung decline, increased rates of exacerbations and shorter survival. By using exome sequencing and extreme phenotype design, it was recently shown that isoforms of dynactin 4 (DCTN4) may influence Pa infection in CF, leading to worse respiratory disease. The purpose of this study was to investigate the role of DCTN4 missense variants on Pa infection incidence, age at first Pa infection and chronic Pa infection incidence in a cohort of adult CF patients from a single centre. Polymerase chain reaction and direct sequencing were used to screen DNA samples for DCTN4 variants. A total of 121 adult CF patients from the Cochin Hospital CF centre have been included, all of them carrying two CFTR defects: 103 developed at least 1 pulmonary infection with Pa, and 68 patients of them had CPA. DCTN4 variants were identified in 24% (29/121) CF patients with Pa infection and in only 17% (3/18) CF patients with no Pa infection. Of the patients with CPA, 29% (20/68) had DCTN4 missense variants vs 23% (8/35) in patients without CPA. Interestingly, p.Tyr263Cys tend to be more frequently observed in CF patients with CPA than in patients without CPA (4/68 vs 0/35), and DCTN4 missense variants tend to be more frequent in male CF patients with CPA bearing two class II mutations than in male CF patients without CPA bearing two class II mutations (P = 0.06). Our observations reinforce that DCTN4 missense variants, especially p.Tyr263Cys, may be involved in the pathogenesis of CPA in male CF.
+25763772	0	5	DCTN4	T116,T123	C4308010
+25763772	23	63	chronic Pseudomonas aeruginosa infection	T047	C0854135
+25763772	67	82	cystic fibrosis	T047	C0010674
+25763772	83	120	Pseudomonas aeruginosa (Pa) infection	T047	C0854135
+25763772	124	139	cystic fibrosis	T047	C0010674
+25763772	141	143	CF	T047	C0010674
+25763772	145	153	patients	T101	C0030705
+25763772	179	188	long-term	T079	C0443252
+25763772	189	206	pulmonary disease	T047	C0024115
+25763772	211	227	shorter survival	T169	C0220921
+25763772	233	253	chronic Pa infection	T047	C0854135
+25763772	255	258	CPA	T047	C0854135
+25763772	279	300	reduced lung function	T033	C0847557
+25763772	302	329	faster rate of lung decline	T033	C3160731
+25763772	341	346	rates	T081	C1521828
+25763772	350	363	exacerbations	T033	C4086268
+25763772	368	384	shorter survival	T169	C0220921
+25763772	395	411	exome sequencing	T063	C3640077
+25763772	416	440	extreme phenotype design	T052	C1707689
+25763772	469	477	isoforms	T116	C0597298
+25763772	481	491	dynactin 4	T116,T123	C4308010
+25763772	493	498	DCTN4	T116,T123	C4308010
+25763772	514	526	Pa infection	T047	C0854135
+25763772	530	532	CF	T047	C0010674
+25763772	551	570	respiratory disease	T047	C0035204
+25763772	592	597	study	T062	C2603343
+25763772	605	616	investigate	T169	C1292732
+25763772	629	634	DCTN4	T116,T123	C4308010
+25763772	635	643	missense	T033	C3845273
+25763772	644	652	variants	T116	C0597298
+25763772	656	668	Pa infection	T047	C0854135
+25763772	669	678	incidence	T081	C0021149
+25763772	680	683	age	T032	C0001779
+25763772	693	705	Pa infection	T047	C0854135
+25763772	710	730	chronic Pa infection	T047	C0854135
+25763772	731	740	incidence	T081	C0021149
+25763772	746	752	cohort	T098	C0599755
+25763772	756	761	adult	T100	C0001675
+25763772	762	764	CF	T047	C0010674
+25763772	765	773	patients	T101	C0030705
+25763772	788	794	centre	T073,T093	C0475309
+25763772	796	821	Polymerase chain reaction	T063	C0032520
+25763772	826	843	direct sequencing	T063	C3899368
+25763772	864	875	DNA samples	T026	C0444245
+25763772	880	885	DCTN4	T116,T123	C4308010
+25763772	886	894	variants	T116	C0597298
+25763772	911	916	adult	T100	C0001675
+25763772	917	919	CF	T047	C0010674
+25763772	920	928	patients	T101	C0030705
+25763772	938	963	Cochin Hospital CF centre	T073,T093	C0019994
+25763772	1009	1013	CFTR	T028	C1413365
+25763772	1014	1021	defects	T169	C0243067
+25763772	1048	1067	pulmonary infection	T047	C0876973
+25763772	1073	1075	Pa	T007	C0033809
+25763772	1084	1092	patients	T101	C0030705
+25763772	1105	1108	CPA	T047	C0854135
+25763772	1110	1115	DCTN4	T116,T123	C4308010
+25763772	1116	1124	variants	T116	C0597298
+25763772	1157	1159	CF	T047	C0010674
+25763772	1160	1168	patients	T101	C0030705
+25763772	1174	1186	Pa infection	T047	C0854135
+25763772	1210	1212	CF	T047	C0010674
+25763772	1213	1221	patients	T101	C0030705
+25763772	1230	1242	Pa infection	T047	C0854135
+25763772	1251	1259	patients	T101	C0030705
+25763772	1265	1268	CPA	T047	C0854135
+25763772	1286	1291	DCTN4	T116,T123	C4308010
+25763772	1292	1300	missense	T033	C3845273
+25763772	1301	1309	variants	T116	C0597298
+25763772	1327	1335	patients	T101	C0030705
+25763772	1344	1347	CPA	T047	C0854135
+25763772	1364	1375	p.Tyr263Cys	T116	C0597298
+25763772	1415	1417	CF	T047	C0010674
+25763772	1418	1426	patients	T101	C0030705
+25763772	1432	1435	CPA	T047	C0854135
+25763772	1444	1452	patients	T101	C0030705
+25763772	1461	1464	CPA	T047	C0854135
+25763772	1485	1490	DCTN4	T116,T123	C4308010
+25763772	1491	1499	missense	T033	C3845273
+25763772	1500	1508	variants	T116	C0597298
+25763772	1537	1541	male	T032	C0086582
+25763772	1542	1544	CF	T047	C0010674
+25763772	1545	1553	patients	T101	C0030705
+25763772	1559	1562	CPA	T047	C0854135
+25763772	1575	1593	class II mutations	T045	C0026882
+25763772	1602	1606	male	T032	C0086582
+25763772	1607	1609	CF	T047	C0010674
+25763772	1610	1618	patients	T101	C0030705
+25763772	1627	1630	CPA	T047	C0854135
+25763772	1643	1661	class II mutations	T045	C0026882
+25763772	1706	1711	DCTN4	T116,T123	C4308010
+25763772	1712	1720	missense	T033	C3845273
+25763772	1721	1729	variants	T116	C0597298
+25763772	1742	1753	p.Tyr263Cys	T116	C0597298
+25763772	1778	1790	pathogenesis	T046	C0699748
+25763772	1794	1797	CPA	T047	C0854135
+25763772	1801	1805	male	T032	C0086582
+25763772	1806	1808	CF	T047	C0010674
+
+25847295|t|Nonylphenol diethoxylate inhibits apoptosis induced in PC12 cells
+25847295|a|Nonylphenol and short-chain nonylphenol ethoxylates such as NP2 EO are present in aquatic environment as wastewater contaminants, and their toxic effects on aquatic species have been reported. Apoptosis has been shown to be induced by serum deprivation or copper treatment. To understand the toxicity of nonylphenol diethoxylate, we investigated the effects of NP2 EO on apoptosis induced by serum deprivation and copper by using PC12 cell system. Nonylphenol diethoxylate itself showed no toxicity and recovered cell viability from apoptosis. In addition, nonylphenol diethoxylate decreased DNA fragmentation caused by apoptosis in PC12 cells. This phenomenon was confirmed after treating apoptotic PC12 cells with nonylphenol diethoxylate, whereas the cytochrome c release into the cytosol decreased as compared to that in apoptotic cells not treated with nonylphenol diethoxylate s. Furthermore, Bax contents in apoptotic cells were reduced after exposure to nonylphenol diethoxylate. Thus, nonylphenol diethoxylate has the opposite effect on apoptosis in PC12 cells compared to nonylphenol, which enhances apoptosis induced by serum deprivation. The difference in structure of the two compounds is hypothesized to be responsible for this phenomenon. These results indicated that nonylphenol diethoxylate has capability to affect cell differentiation and development and has potentially harmful effect on organisms because of its unexpected impact on apoptosis. © 2015 Wiley Periodicals, Inc. Environ Toxicol 31: 1389-1398, 2016.
+25847295	0	24	Nonylphenol diethoxylate	T131	C1254354
+25847295	25	33	inhibits	T052	C3463820
+25847295	34	43	apoptosis	T043	C0162638
+25847295	44	51	induced	T169	C0205263
+25847295	55	65	PC12 cells	T025	C0085262
+25847295	66	77	Nonylphenol	T131	C1254354
+25847295	82	117	short-chain nonylphenol ethoxylates	T131	C1254354
+25847295	126	132	NP2 EO	T131	C1254354
+25847295	137	144	present	T033	C0150312
+25847295	148	167	aquatic environment	T067	C0563034
+25847295	171	181	wastewater	T069	C3494254
+25847295	182	194	contaminants	T167	C2827365
+25847295	206	219	toxic effects	T037	C0600688
+25847295	223	238	aquatic species	T001	C0596121
+25847295	259	268	Apoptosis	T043	C0162638
+25847295	290	297	induced	T169	C0205263
+25847295	301	306	serum	T031	C0229671
+25847295	307	318	deprivation	T080	C0871712
+25847295	322	328	copper	T121,T123,T196	C0009968
+25847295	329	338	treatment	T169	C1522326
+25847295	358	366	toxicity	T080	C0040539
+25847295	370	394	nonylphenol diethoxylate	T131	C1254354
+25847295	416	426	effects of	T080	C1704420
+25847295	427	433	NP2 EO	T131	C1254354
+25847295	437	446	apoptosis	T043	C0162638
+25847295	447	454	induced	T169	C0205263
+25847295	458	463	serum	T031	C0229671
+25847295	464	475	deprivation	T080	C0871712
+25847295	480	486	copper	T121,T123,T196	C0009968
+25847295	496	512	PC12 cell system	T025	C0085262
+25847295	514	538	Nonylphenol diethoxylate	T131	C1254354
+25847295	579	593	cell viability	T043	C0007620
+25847295	599	608	apoptosis	T043	C0162638
+25847295	623	647	nonylphenol diethoxylate	T131	C1254354
+25847295	648	657	decreased	T081	C0205216
+25847295	658	675	DNA fragmentation	T044	C0376669
+25847295	686	695	apoptosis	T043	C0162638
+25847295	699	709	PC12 cells	T025	C0085262
+25847295	716	726	phenomenon	T067	C1882365
+25847295	747	755	treating	T169	C1522326
+25847295	756	765	apoptotic	T080	C1516044
+25847295	766	776	PC12 cells	T025	C0085262
+25847295	782	806	nonylphenol diethoxylate	T131	C1254354
+25847295	820	832	cytochrome c	T116,T126	C0010749
+25847295	850	857	cytosol	T026	C1383501
+25847295	858	867	decreased	T081	C0205216
+25847295	891	906	apoptotic cells	T025	C0007634
+25847295	911	918	treated	T169	C1522326
+25847295	924	948	nonylphenol diethoxylate	T131	C1254354
+25847295	965	968	Bax	T116,T123	C0219474
+25847295	969	977	contents	T077	C0456205
+25847295	981	996	apoptotic cells	T025	C0007634
+25847295	1002	1009	reduced	T080	C0392756
+25847295	1016	1027	exposure to	T080	C0332157
+25847295	1028	1052	nonylphenol diethoxylate	T131	C1254354
+25847295	1060	1084	nonylphenol diethoxylate	T131	C1254354
+25847295	1093	1108	opposite effect	T080	C1280500
+25847295	1112	1121	apoptosis	T043	C0162638
+25847295	1125	1135	PC12 cells	T025	C0085262
+25847295	1148	1159	nonylphenol	T131	C1254354
+25847295	1167	1175	enhances	T052	C2349975
+25847295	1176	1185	apoptosis	T043	C0162638
+25847295	1186	1193	induced	T169	C0205263
+25847295	1197	1202	serum	T031	C0229671
+25847295	1203	1214	deprivation	T080	C0871712
+25847295	1220	1230	difference	T080	C1705242
+25847295	1234	1243	structure	T082	C0678594
+25847295	1255	1264	compounds	T103	C0220806
+25847295	1268	1280	hypothesized	T078	C1512571
+25847295	1308	1318	phenomenon	T067	C1882365
+25847295	1326	1333	results	T033	C2825142
+25847295	1349	1373	nonylphenol diethoxylate	T131	C1254354
+25847295	1378	1388	capability	T080	C2698977
+25847295	1399	1419	cell differentiation	T043	C0007589
+25847295	1424	1435	development	T039	C0243107
+25847295	1444	1455	potentially	T080	C3245505
+25847295	1456	1470	harmful effect	T037	C0600688
+25847295	1474	1483	organisms	T001	C0029235
+25847295	1510	1516	impact	T080	C4049986
+25847295	1520	1529	apoptosis	T043	C0162638
+
+26316050|t|Prevascularized silicon membranes for the enhancement of transport to implanted medical devices
+26316050|a|Recent advances in drug delivery and sensing devices for in situ applications are limited by the diffusion -limiting foreign body response of fibrous encapsulation. In this study, we fabricated prevascularized synthetic device ports to help mitigate this limitation. Membranes with rectilinear arrays of square pores with widths ranging from 40 to 200 μm were created using materials (50 μm thick double-sided polished silicon) and processes (photolithography and directed reactive ion etching) common in the manufacturing of microfabricated sensors. Vascular endothelial cells responded to membrane geometry by either forming vascular tubes that extended through the pore or completely filling membrane pores after 4 days in culture. Although tube formation began to predominate overgrowth around 75 μm and continued to increase at even larger pore sizes, tubes formed at these large pore sizes were not completely round and had relatively thin walls. Thus, the optimum range of pore size for prevascularization of these membranes was estimated to be 75-100 μm. This study lays the foundation for creating a prevascularized port that can be used to reduce fibrous encapsulation and thus enhance diffusion to implanted medical devices and sensors. © 2015 Wiley Periodicals, Inc. J Biomed Mater Res Part B: Appl Biomater, 104B: 1602-1609, 2016.
+26316050	0	15	Prevascularized	T169	C0042382
+26316050	16	23	silicon	T109,T122	C0037114
+26316050	24	33	membranes	T073	C1706182
+26316050	42	53	enhancement	T052	C2349975
+26316050	57	66	transport	T169	C1705822
+26316050	70	95	implanted medical devices	T033	C2828363
+26316050	115	128	drug delivery	T074	C0085104
+26316050	133	148	sensing devices	T073	C0183210
+26316050	153	160	in situ	T082	C0444498
+26316050	161	173	applications	T058	C0185125
+26316050	178	185	limited	T169	C0439801
+26316050	193	202	diffusion	T070	C0012222
+26316050	213	234	foreign body response	T033	C1708386
+26316050	238	245	fibrous	T080	C0439709
+26316050	246	259	encapsulation	T067	C2348438
+26316050	290	305	prevascularized	T169	C0042382
+26316050	306	328	synthetic device ports	T073	C1706409
+26316050	337	345	mitigate	T067	C1553901
+26316050	351	361	limitation	T169	C0449295
+26316050	363	372	Membranes	T073	C1706182
+26316050	378	396	rectilinear arrays	T082	C1254362
+26316050	400	406	square	T082	C0205120
+26316050	407	412	pores	T082	C1254362
+26316050	418	424	widths	T081	C0487742
+26316050	470	479	materials	T167	C0520510
+26316050	487	492	thick	T080	C1280412
+26316050	493	505	double-sided	T082	C1254362
+26316050	506	522	polished silicon	T109,T122	C0037114
+26316050	528	537	processes	T067	C1522240
+26316050	539	555	photolithography	T057	C0599199
+26316050	560	589	directed reactive ion etching	T067	C1254366
+26316050	605	618	manufacturing	T057	C0870840
+26316050	622	645	microfabricated sensors	T073	C0183210
+26316050	647	673	Vascular endothelial cells	T025	C1257792
+26316050	687	704	membrane geometry	T073	C1706182
+26316050	723	737	vascular tubes	T023	C0005847
+26316050	743	751	extended	T082	C0231449
+26316050	764	768	pore	T082	C1254362
+26316050	772	782	completely	T080	C0205197
+26316050	783	790	filling	T052	C0441655
+26316050	783	790	filling	T052	C0441655
+26316050	791	799	membrane	T073	C1706182
+26316050	800	805	pores	T082	C1254362
+26316050	822	829	culture	T059	C1331092
+26316050	840	854	tube formation	T169	C0042382
+26316050	864	875	predominate	T080	C0332251
+26316050	876	886	overgrowth	T033	C1849265
+26316050	917	925	increase	T169	C0442805
+26316050	934	940	larger	T081	C0549177
+26316050	941	951	pore sizes	T081	C3829176
+26316050	953	965	tubes formed	T169	C0042382
+26316050	975	980	large	T081	C0549177
+26316050	981	991	pore sizes	T081	C3829176
+26316050	1001	1011	completely	T080	C0205197
+26316050	1012	1017	round	T082	C0332490
+26316050	1037	1041	thin	T080	C0205168
+26316050	1042	1047	walls	T082	C0442069
+26316050	1059	1066	optimum	T080	C2698651
+26316050	1067	1072	range	T081	C1514721
+26316050	1076	1085	pore size	T081	C3829176
+26316050	1090	1108	prevascularization	T169	C0042382
+26316050	1118	1127	membranes	T073	C1706182
+26316050	1132	1141	estimated	T081	C0750572
+26316050	1164	1169	study	T062	C2603343
+26316050	1205	1220	prevascularized	T169	C0042382
+26316050	1221	1225	port	T073	C1706409
+26316050	1253	1260	fibrous	T080	C0439709
+26316050	1261	1274	encapsulation	T067	C2348438
+26316050	1284	1291	enhance	T052	C2349975
+26316050	1292	1301	diffusion	T070	C0012222
+26316050	1305	1330	implanted medical devices	T033	C2828363
+26316050	1335	1342	sensors	T073	C0183210
