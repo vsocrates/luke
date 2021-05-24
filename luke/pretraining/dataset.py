@@ -254,6 +254,7 @@ class WikipediaPretrainingDataset(object):
         sentences = []
 
         def tokenize(text: str, add_prefix_space: bool):
+            # clean up multiple spaces
             text = re.sub(r"\s+", " ", text).rstrip()
             if not text:
                 return []
@@ -295,20 +296,31 @@ class WikipediaPretrainingDataset(object):
                         continue
                     entity_id = _entity_vocab.get_id(link_title, _language)
 
+                    # read from the beginning of the sentence (or current cursor) to beginning of linked text
                     text = paragraph_text[cur:link_start]
+                    # the add_prefix_space thing is because of the way RoBERTa was trained
+                    # from tf library: "This tokenizer has been trained to treat spaces like parts of the tokens 
+                    # (a bit like sentencepiece) so a word will be encoded differently whether it is at the beginning
+                    #  of the sentence (without space) or not"
                     if cur == 0 or text.startswith(" ") or paragraph_text[cur - 1] == " ":
                         sent_words += tokenize(text, True)
                     else:
                         sent_words += tokenize(text, False)
-
+                    
+                    # read the linked text
                     link_text = paragraph_text[link_start:link_end]
-
+                    
+                    # tokenize the linked words, add spaces as necessary
                     if link_start == 0 or link_text.startswith(" ") or paragraph_text[link_start - 1] == " ":
                         link_words = tokenize(link_text, True)
                     else:
                         link_words = tokenize(link_text, False)
 
+                    # add the entities + the start and end number of tokens for the entity
+                    # IMPORTANT
                     sent_links.append((entity_id, len(sent_words), len(sent_words) + len(link_words)))
+                    # add entity words to the end of the sentence words
+                    # this gets us our fully tokenized text
                     sent_words += link_words
                     cur = link_end
 
@@ -325,16 +337,21 @@ class WikipediaPretrainingDataset(object):
         ret = []
         words = []
         links = []
+        # loop through the sentences in the paragraph
+        # each sentence is a tf Example
         for i, (sent_words, sent_links) in enumerate(sentences):
             links += [(id_, start + len(words), end + len(words)) for id_, start, end in sent_links]
             words += sent_words
             if i == len(sentences) - 1 or len(words) + len(sentences[i + 1][0]) > _max_num_tokens:
                 if links or _include_sentences_without_entities:
                     links = links[:_max_entity_length]
+                    # get the IDs based on the word list
                     word_ids = _tokenizer.convert_tokens_to_ids(words)
                     assert _min_sentence_length <= len(word_ids) <= _max_num_tokens
+                    # get the entity IDs from our enttiy vocab
                     entity_ids = [id_ for id_, _, _, in links]
                     assert len(entity_ids) <= _max_entity_length
+                    # this is the position of the entities in the text? 
                     entity_position_ids = itertools.chain(
                         *[
                             (list(range(start, end)) + [-1] * (_max_mention_length - end + start))[:_max_mention_length]
