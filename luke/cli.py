@@ -5,8 +5,9 @@ import random
 import click
 import numpy as np
 import torch
-from wikipedia2vec.dump_db import DumpDB
-from wikipedia2vec.utils.wiki_dump_reader import WikiDumpReader
+# from wikipedia2vec.dump_db import DumpDB
+# from wikipedia2vec.utils.wiki_dump_reader import WikiDumpReader
+from medmentions_db import MedMentionsDB
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "1"  # filter out INFO messages from Tensordflow
 try:
@@ -43,23 +44,29 @@ def cli(verbose: bool, seed: int):
         torch.cuda.manual_seed_all(seed)
 
 
+
+
+# 1 
 @cli.command()
 @click.argument("dump_file", type=click.Path(exists=True))
 @click.argument("out_file", type=click.Path())
 @click.option("--pool-size", default=multiprocessing.cpu_count())
 @click.option("--chunk-size", type=int, default=100)
-def build_dump_db(dump_file: str, out_file: str, **kwargs):
-    dump_reader = WikiDumpReader(dump_file)
-    DumpDB.build(dump_reader, out_file, **kwargs)
+def build_medmentions_db(infile: str, out_file: str, **kwargs):
+    MedMentionsDB.build(infile, out_file)
 
+# cli.add_command(luke.utils.interwiki_db.build_interwiki_db) # for multilingual, ignore
 
-cli.add_command(luke.utils.entity_vocab.build_entity_vocab)
-cli.add_command(luke.pretraining.dataset.build_wikipedia_pretraining_dataset)
-cli.add_command(luke.pretraining.train.pretrain)
+cli.add_command(luke.utils.entity_vocab.build_entity_vocab) # 2 
+
+cli.add_command(luke.pretraining.dataset.build_wikipedia_pretraining_dataset) # 3
+
+cli.add_command(luke.pretraining.train.start_pretraining_worker) # 4?
+
+cli.add_command(luke.pretraining.train.pretrain) # 5
+
 cli.add_command(luke.pretraining.train.resume_pretraining)
-cli.add_command(luke.pretraining.train.start_pretraining_worker)
-cli.add_command(luke.utils.interwiki_db.build_interwiki_db)
-cli.add_command(luke.utils.entity_vocab.build_multilingual_entity_vocab)
+
 cli.add_command(luke.utils.model_utils.create_model_archive)
 
 

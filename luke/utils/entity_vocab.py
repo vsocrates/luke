@@ -1,3 +1,4 @@
+from luke.utils.medmentions_db import MedMentionsDB
 from typing import List, TextIO, Dict
 import json
 import math
@@ -10,9 +11,9 @@ from multiprocessing.pool import Pool
 
 import click
 from tqdm import tqdm
-from wikipedia2vec.dump_db import DumpDB
+# from wikipedia2vec.dump_db import DumpDB
+from medmentions_db import MedMentionsDB
 
-from .interwiki_db import InterwikiDB
 
 PAD_TOKEN = "[PAD]"
 UNK_TOKEN = "[UNK]"
@@ -123,8 +124,8 @@ class EntityVocab(object):
         dump_db: DumpDB,
         out_file: str,
         vocab_size: int,
-        white_list: List[str],
-        white_list_only: bool,
+        # white_list: List[str],
+        # white_list_only: bool,
         pool_size: int,
         chunk_size: int,
         language: str,
@@ -132,6 +133,8 @@ class EntityVocab(object):
         counter = Counter()
         with tqdm(total=dump_db.page_size(), mininterval=0.5) as pbar:
             with closing(Pool(pool_size, initializer=EntityVocab._initialize_worker, initargs=(dump_db,))) as pool:
+                # we divide out the titles in dump_db and use them to index the files that we count
+                # for the entity vocab
                 for ret in pool.imap_unordered(EntityVocab._count_entities, dump_db.titles(), chunksize=chunk_size):
                     counter.update(ret)
                     pbar.update()
@@ -141,27 +144,31 @@ class EntityVocab(object):
         title_dict[UNK_TOKEN] = 0
         title_dict[MASK_TOKEN] = 0
 
-        for title in white_list:
-            if counter[title] != 0:
-                title_dict[title] = counter[title]
+        # for title in white_list:
+        #     if counter[title] != 0:
+        #         title_dict[title] = counter[title]
 
-        if not white_list_only:
-            valid_titles = frozenset(dump_db.titles())
-            for title, count in counter.most_common():
-                if title in valid_titles and not title.startswith("Category:"):
-                    title_dict[title] = count
-                    if len(title_dict) == vocab_size:
-                        break
+        # if not white_list_only:
+        #     valid_titles = frozenset(dump_db.titles())
+        #     for title, count in counter.most_common():
+        #         if title in valid_titles and not title.startswith("Category:"):
+        #             title_dict[title] = count
+        #             if len(title_dict) == vocab_size:
+        #                 break
 
         with open(out_file, "w") as f:
             for ent_id, (title, count) in enumerate(title_dict.items()):
+                # we are creating an JSON-L file here of the format: 
+                # {id1: "", entities:"word1", count: 4}
+                # {id2: "", entities:"", count:""}
+                # where each line represents an entity entry 
                 json.dump({"id": ent_id, "entities": [[title, language]], "count": count}, f)
                 f.write("\n")
 
     @staticmethod
-    def _initialize_worker(dump_db: DumpDB):
-        global _dump_db
-        _dump_db = dump_db
+    def _initialize_worker(medmention_db: MedMentionsDB):
+        global _medmention_db
+        _medmention_db = medmention_db
 
     @staticmethod
     def _count_entities(title: str) -> Dict[str, int]:
@@ -173,63 +180,64 @@ class EntityVocab(object):
         return counter
 
 
-@click.command()
-@click.option("entity_vocab_files", "-v", multiple=True)
-@click.option("inter_wiki_db_path", "-i", type=click.Path())
-@click.option("out_file", "-o", type=click.Path())
-@click.option("vocab_size", "-s", type=int)
-def build_multilingual_entity_vocab(
-    entity_vocab_files: List[str], inter_wiki_db_path: str, out_file: str, vocab_size: int = 1000000
-):
 
-    for entity_vocab_path in entity_vocab_files:
-        if Path(entity_vocab_path).suffix != ".jsonl":
-            raise RuntimeError(
-                f"entity_vocab_path: {entity_vocab_path}\n"
-                "Entity vocab files in this format is not supported."
-                "Please use the jsonl file format and try again."
-            )
+# @click.command()
+# @click.option("entity_vocab_files", "-v", multiple=True)
+# @click.option("inter_wiki_db_path", "-i", type=click.Path())
+# @click.option("out_file", "-o", type=click.Path())
+# @click.option("vocab_size", "-s", type=int)
+# def build_multilingual_entity_vocab(
+#     entity_vocab_files: List[str], inter_wiki_db_path: str, out_file: str, vocab_size: int = 1000000
+# ):
 
-    db = InterwikiDB.load(inter_wiki_db_path)
+#     for entity_vocab_path in entity_vocab_files:
+#         if Path(entity_vocab_path).suffix != ".jsonl":
+#             raise RuntimeError(
+#                 f"entity_vocab_path: {entity_vocab_path}\n"
+#                 "Entity vocab files in this format is not supported."
+#                 "Please use the jsonl file format and try again."
+#             )
 
-    vocab: Dict[Entity, int] = {}  # title -> index
-    inv_vocab = defaultdict(set)  # index -> Set[title]
-    count_dict = defaultdict(int)  # index -> count
+#     db = InterwikiDB.load(inter_wiki_db_path)
 
-    special_token_to_idx = {special_token: idx for idx, special_token in enumerate(SPECIAL_TOKENS)}
-    current_new_id = len(special_token_to_idx)
+#     vocab: Dict[Entity, int] = {}  # title -> index
+#     inv_vocab = defaultdict(set)  # index -> Set[title]
+#     count_dict = defaultdict(int)  # index -> count
 
-    for entity_vocab_path in entity_vocab_files:
-        with open(entity_vocab_path, "r") as f:
-            for line in f:
-                entity_dict = json.loads(line)
-                for title, lang in entity_dict["entities"]:
-                    entity = Entity(title, lang)
-                    multilingual_entities = {entity}
-                    if title not in SPECIAL_TOKENS:
-                        aligned_entities = {Entity(t, ln) for t, ln in db.query(title, lang)}
-                        multilingual_entities.update(aligned_entities)
-                        # judge if we should assign a new id to these entities
-                        already_registered_entities = aligned_entities & vocab.keys()
-                        if len(already_registered_entities) > 0:
-                            already_registered_entity = list(already_registered_entities)[0]
-                            ent_id = vocab[already_registered_entity]
-                        else:
-                            ent_id = current_new_id
-                            current_new_id += 1
-                    else:
-                        ent_id = special_token_to_idx[title]
+#     special_token_to_idx = {special_token: idx for idx, special_token in enumerate(SPECIAL_TOKENS)}
+#     current_new_id = len(special_token_to_idx)
 
-                    vocab[entity] = ent_id
-                    inv_vocab[ent_id].add((entity.title, entity.language))  # Convert Entity to Tuple for json.dump
-                    count_dict[ent_id] += entity_dict["count"]
-    json_dicts = [
-        {"entities": list(inv_vocab[ent_id]), "count": count_dict[ent_id]} for ent_id in range(current_new_id)
-    ]
-    json_dicts.sort(key=lambda x: -x["count"] if x["count"] != 0 else -math.inf)
-    json_dicts = json_dicts[:vocab_size]
+#     for entity_vocab_path in entity_vocab_files:
+#         with open(entity_vocab_path, "r") as f:
+#             for line in f:
+#                 entity_dict = json.loads(line)
+#                 for title, lang in entity_dict["entities"]:
+#                     entity = Entity(title, lang)
+#                     multilingual_entities = {entity}
+#                     if title not in SPECIAL_TOKENS:
+#                         aligned_entities = {Entity(t, ln) for t, ln in db.query(title, lang)}
+#                         multilingual_entities.update(aligned_entities)
+#                         # judge if we should assign a new id to these entities
+#                         already_registered_entities = aligned_entities & vocab.keys()
+#                         if len(already_registered_entities) > 0:
+#                             already_registered_entity = list(already_registered_entities)[0]
+#                             ent_id = vocab[already_registered_entity]
+#                         else:
+#                             ent_id = current_new_id
+#                             current_new_id += 1
+#                     else:
+#                         ent_id = special_token_to_idx[title]
 
-    with open(out_file, "w") as f:
-        for ent_id, item in enumerate(json_dicts):
-            json.dump({"id": ent_id, **item}, f)
-            f.write("\n")
+#                     vocab[entity] = ent_id
+#                     inv_vocab[ent_id].add((entity.title, entity.language))  # Convert Entity to Tuple for json.dump
+#                     count_dict[ent_id] += entity_dict["count"]
+#     json_dicts = [
+#         {"entities": list(inv_vocab[ent_id]), "count": count_dict[ent_id]} for ent_id in range(current_new_id)
+#     ]
+#     json_dicts.sort(key=lambda x: -x["count"] if x["count"] != 0 else -math.inf)
+#     json_dicts = json_dicts[:vocab_size]
+
+#     with open(out_file, "w") as f:
+#         for ent_id, item in enumerate(json_dicts):
+#             json.dump({"id": ent_id, **item}, f)
+#             f.write("\n")
