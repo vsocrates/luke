@@ -217,4 +217,7 @@ tags
 
 # End of https://www.toptal.com/developers/gitignore/api/vim
 
-
+# data files
+*.jsonl
+tests/*.json
+tests/*.txt
