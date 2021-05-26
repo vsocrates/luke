@@ -7,7 +7,8 @@ import numpy as np
 import torch
 # from wikipedia2vec.dump_db import DumpDB
 # from wikipedia2vec.utils.wiki_dump_reader import WikiDumpReader
-from medmentions_db import MedMentionsDB
+from luke.utils.medmentions_db import MedMentionsDB
+
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "1"  # filter out INFO messages from Tensordflow
 try:
@@ -18,11 +19,13 @@ try:
 except ImportError:
     pass
 
-import luke.pretraining.dataset
+# import luke.pretraining.dataset
+import luke.pretraining.medmentions_dataset
 import luke.pretraining.train
 import luke.utils.entity_vocab
 import luke.utils.interwiki_db
 import luke.utils.model_utils
+
 
 
 @click.group()
@@ -48,18 +51,18 @@ def cli(verbose: bool, seed: int):
 
 # 1 
 @cli.command()
-@click.argument("dump_file", type=click.Path(exists=True))
+@click.argument("in_file", type=click.Path(exists=True))
 @click.argument("out_file", type=click.Path())
 @click.option("--pool-size", default=multiprocessing.cpu_count())
 @click.option("--chunk-size", type=int, default=100)
-def build_medmentions_db(infile: str, out_file: str, **kwargs):
-    MedMentionsDB.build(infile, out_file)
+def build_medmentions_db(in_file: str, out_file: str, **kwargs):
+    MedMentionsDB.build(in_file, out_file)
 
 # cli.add_command(luke.utils.interwiki_db.build_interwiki_db) # for multilingual, ignore
 
 cli.add_command(luke.utils.entity_vocab.build_entity_vocab) # 2 
 
-cli.add_command(luke.pretraining.dataset.build_wikipedia_pretraining_dataset) # 3
+cli.add_command(luke.pretraining.medmentions_dataset.build_medmentions_pretraining_dataset) # 3
 
 cli.add_command(luke.pretraining.train.start_pretraining_worker) # 4?
 
