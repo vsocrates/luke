@@ -1,5 +1,5 @@
 from luke.utils.medmentions_db import MedMentionsDB
-from typing import List, TextIO, Dict
+from typing import List, Set, TextIO, Dict
 import json
 import math
 from pathlib import Path
@@ -12,7 +12,7 @@ from multiprocessing.pool import Pool
 import click
 from tqdm import tqdm
 # from wikipedia2vec.dump_db import DumpDB
-from medmentions_db import MedMentionsDB
+from luke.utils.medmentions_db import MedMentionsDB
 
 
 PAD_TOKEN = "[PAD]"
@@ -20,6 +20,7 @@ UNK_TOKEN = "[UNK]"
 MASK_TOKEN = "[MASK]"
 
 SPECIAL_TOKENS = {PAD_TOKEN, UNK_TOKEN, MASK_TOKEN}
+UNK_PMID = "00000000"
 
 Entity = namedtuple("Entity", ["title", "language"])
 
@@ -27,17 +28,19 @@ _dump_db = None  # global variable used in multiprocessing workers
 
 
 @click.command()
-@click.argument("dump_db_file", type=click.Path())
+@click.argument("medmention_db_file", type=click.Path())
 @click.argument("out_file", type=click.Path())
 @click.option("--vocab-size", default=1000000)
-@click.option("-w", "--white-list", type=click.File(), multiple=True)
-@click.option("--white-list-only", is_flag=True)
+# @click.option("-w", "--white-list", type=click.File(), multiple=True)
+# @click.option("--white-list-only", is_flag=True)
 @click.option("--pool-size", default=multiprocessing.cpu_count())
 @click.option("--chunk-size", default=100)
-def build_entity_vocab(dump_db_file: str, white_list: List[TextIO], **kwargs):
-    dump_db = DumpDB(dump_db_file)
-    white_list = [line.rstrip() for f in white_list for line in f]
-    EntityVocab.build(dump_db, white_list=white_list, language=dump_db.language, **kwargs)
+def build_entity_vocab(medmention_db_file: str, **kwargs):
+    medmentions_db = MedMentionsDB(medmention_db_file)
+    # white_list = [line.rstrip() for f in white_list for line in f]
+    EntityVocab.build(medmentions_db, 
+    # white_list=white_list, 
+    language=medmentions_db.language, **kwargs)
 
 
 class EntityVocab(object):
@@ -47,6 +50,8 @@ class EntityVocab(object):
         self.vocab: Dict[Entity, int] = {}
         self.counter: Dict[Entity, int] = {}
         self.inv_vocab: Dict[int, List[Entity]] = defaultdict(list)
+
+        self.pmids: Set[int] = set()
 
         # allow tsv files for backward compatibility
         if vocab_file.endswith(".tsv"):
@@ -73,7 +78,7 @@ class EntityVocab(object):
                 self.vocab[entity] = item["id"]
                 self.counter[entity] = item["count"]
                 self.inv_vocab[item["id"]].append(entity)
-
+            self.pmids.add(item['pmid'])
     @property
     def size(self) -> int:
         return len(self)
@@ -95,6 +100,16 @@ class EntityVocab(object):
 
     def contains(self, title: str, language: str = None):
         return Entity(title, language) in self.vocab
+
+
+    def page_contains(self, pmid: str):
+        '''
+        Create a new method here that checks if a particular PMID is in our entity vocab, 
+        because for us that's different than finding an entity in the vocab, so
+        can't use the other contains. They index by entity and we don't. 
+        '''
+        return pmid in self.pmids
+        
 
     def get_id(self, title: str, language: str = None, default: int = None) -> int:
         try:
@@ -121,7 +136,7 @@ class EntityVocab(object):
 
     @staticmethod
     def build(
-        dump_db: DumpDB,
+        medmention_db: MedMentionsDB,
         out_file: str,
         vocab_size: int,
         # white_list: List[str],
@@ -131,38 +146,44 @@ class EntityVocab(object):
         language: str,
     ):
         counter = Counter()
-        with tqdm(total=dump_db.page_size(), mininterval=0.5) as pbar:
-            with closing(Pool(pool_size, initializer=EntityVocab._initialize_worker, initargs=(dump_db,))) as pool:
+        with tqdm(total=medmention_db.page_size(), mininterval=0.5) as pbar:
+            with closing(Pool(pool_size, initializer=EntityVocab._initialize_worker, initargs=(medmention_db,))) as pool:
                 # we divide out the titles in dump_db and use them to index the files that we count
                 # for the entity vocab
-                for ret in pool.imap_unordered(EntityVocab._count_entities, dump_db.titles(), chunksize=chunk_size):
+                for ret in pool.imap_unordered(EntityVocab._count_entities, medmention_db.get_data().items(), chunksize=chunk_size):
                     counter.update(ret)
                     pbar.update()
+        
+        # sanity check below, should be 250 for 0.txt test file
+        assert sum(counter.values()) == 250
 
         title_dict = OrderedDict()
         title_dict[PAD_TOKEN] = 0
         title_dict[UNK_TOKEN] = 0
         title_dict[MASK_TOKEN] = 0
 
-        # for title in white_list:
-        #     if counter[title] != 0:
-        #         title_dict[title] = counter[title]
 
-        # if not white_list_only:
-        #     valid_titles = frozenset(dump_db.titles())
-        #     for title, count in counter.most_common():
-        #         if title in valid_titles and not title.startswith("Category:"):
-        #             title_dict[title] = count
-        #             if len(title_dict) == vocab_size:
-        #                 break
+        for cui_id, count in counter.most_common():
+            title_dict[cui_id] = count
+            if len(title_dict) == vocab_size:
+                break
 
         with open(out_file, "w") as f:
-            for ent_id, (title, count) in enumerate(title_dict.items()):
+            # for ent_id, (title, count) in enumerate(title_dict.items()):            
+            for ent_id, (cui_id, count) in enumerate(title_dict.items()):
                 # we are creating an JSON-L file here of the format: 
                 # {id1: "", entities:"word1", count: 4}
                 # {id2: "", entities:"", count:""}
                 # where each line represents an entity entry 
-                json.dump({"id": ent_id, "entities": [[title, language]], "count": count}, f)
+
+                # in our case, we use the CUI as the entity (title)
+                if cui_id in SPECIAL_TOKENS:
+                    special_token_to_idx = {special_token: idx for idx, special_token in enumerate(SPECIAL_TOKENS)}
+                    json.dump({"id": special_token_to_idx[cui_id], "entities": [[cui_id, language]], "count": count, 
+                            "pmid":UNK_PMID}, f)
+                else:
+                    json.dump({"id": ent_id, "entities": [[cui_id, language]], "count": count, 
+                            "pmid":medmention_db.entity_to_pmid[cui_id]}, f)
                 f.write("\n")
 
     @staticmethod
@@ -171,13 +192,18 @@ class EntityVocab(object):
         _medmention_db = medmention_db
 
     @staticmethod
-    def _count_entities(title: str) -> Dict[str, int]:
+    def _count_entities(article_elem: tuple) -> Dict[str, int]:
         counter = Counter()
-        for paragraph in _dump_db.get_paragraphs(title):
-            for wiki_link in paragraph.wiki_links:
-                title = _dump_db.resolve_redirect(wiki_link.title)
-                counter[title] += 1
+        pmid, article_data = article_elem
+        for entity_data in article_data['entities']:
+            # we will use the entity ID as the ID in the counter
+            counter[entity_data[4]] += 1 
         return counter
+        # for paragraph in _dump_db.get_paragraphs(title):
+        #     for wiki_link in paragraph.wiki_links:
+        #         title = _dump_db.resolve_redirect(wiki_link.title)
+        #         counter[title] += 1
+        # return counter
 
 
 
