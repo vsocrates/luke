@@ -33,7 +33,6 @@ logger = logging.getLogger(__name__)
 @click.command()
 @click.argument("dataset_dir")
 @click.argument("output_dir", type=click.Path())
-@click.option("--multilingual", is_flag=True)
 @click.option("--sampling-smoothing", default=0.7)
 @click.option("--parallel", is_flag=True)
 @click.option("--cpu", is_flag=True)
@@ -148,6 +147,7 @@ def run_pretraining(args):
 
     if args.local_rank == -1:
         if args.cpu:
+            print("CPU!!!")
             device = torch.device("cpu")
         else:
             device = torch.device("cuda")
@@ -167,11 +167,11 @@ def run_pretraining(args):
         "Starting pretraining with the following arguments: %s", json.dumps(vars(args), indent=2, sort_keys=True)
     )
 
-    if args.multilingual:
-        dataset_dir_list = args.dataset_dir.split(",")
-        dataset_list = [MedMentionsPretrainingDataset(d) for d in dataset_dir_list]
-    else:
-        dataset_list = [MedMentionsPretrainingDataset(args.dataset_dir)]
+    # if args.multilingual:
+    #     dataset_dir_list = args.dataset_dir.split(",")
+    #     dataset_list = [MedMentionsPretrainingDataset(d) for d in dataset_dir_list]
+    # else:
+    dataset_list = [MedMentionsPretrainingDataset(args.dataset_dir)]
 
     bert_config = AutoConfig.from_pretrained(args.bert_model_name)
 

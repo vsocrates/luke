@@ -52,6 +52,7 @@ class EntityVocab(object):
         self.inv_vocab: Dict[int, List[Entity]] = defaultdict(list)
 
         self.pmids: Set[int] = set()
+        self.entity_to_pmid: Dict[str, str] = {}
 
         # allow tsv files for backward compatibility
         if vocab_file.endswith(".tsv"):
@@ -71,14 +72,16 @@ class EntityVocab(object):
     def _parse_jsonl_vocab_file(self, vocab_file: str):
         with open(vocab_file, "r") as f:
             entities_json = [json.loads(line) for line in f]
-
+        
         for item in entities_json:
             for title, language in item["entities"]:
                 entity = Entity(title, language)
                 self.vocab[entity] = item["id"]
                 self.counter[entity] = item["count"]
                 self.inv_vocab[item["id"]].append(entity)
+                self.entity_to_pmid[entity] = item['pmid']
             self.pmids.add(item['pmid'])
+                
     @property
     def size(self) -> int:
         return len(self)
@@ -130,7 +133,8 @@ class EntityVocab(object):
         with open(out_file, "w") as f:
             for ent_id, entities in self.inv_vocab.items():
                 count = self.counter[entities[0]]
-                item = {"id": ent_id, "entities": [(e.title, e.language) for e in entities], "count": count}
+                item = {"id": ent_id, "entities": [(e.title, e.language) for e in entities], "count": count,
+                        "pmid": self.entity_to_pmid[[(e.title, e.language) for e in entities][0]]}
                 json.dump(item, f)
                 f.write("\n")
 
@@ -183,7 +187,7 @@ class EntityVocab(object):
                             "pmid":UNK_PMID}, f)
                 else:
                     json.dump({"id": ent_id, "entities": [[cui_id, language]], "count": count, 
-                            "pmid":medmention_db.entity_to_pmid[cui_id]}, f)
+                            "pmid": medmention_db.entity_to_pmid[cui_id]}, f)
                 f.write("\n")
 
     @staticmethod
