@@ -9,7 +9,7 @@ import unicodedata
 import numpy as np
 from transformers.tokenization_roberta import RobertaTokenizer
 
-from luke.pretraining.dataset import WikipediaPretrainingDataset
+from luke.pretraining.medmentions_dataset import MedMentionsPretrainingDataset
 from luke.utils.entity_vocab import MASK_TOKEN
 
 logger = logging.getLogger(__name__)
@@ -103,7 +103,7 @@ class LukePretrainingBatchWorker(multiprocessing.Process):
             self._dataset_kwargs["shuffle_buffer_size"] = batch_size * 1000
 
     def run(self):
-        self._pretraining_dataset = WikipediaPretrainingDataset(self._dataset_dir)
+        self._pretraining_dataset = MedMentionsPretrainingDataset(self._dataset_dir)
         self._tokenizer = self._pretraining_dataset.tokenizer
         self._entity_vocab = self._pretraining_dataset.entity_vocab
         self._max_seq_length = self._pretraining_dataset.max_seq_length
