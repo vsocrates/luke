@@ -268,7 +268,7 @@ class WikipediaPretrainingDataset(object):
             paragraph_text = paragraph.text
 
             # First, get paragraph links.
-            # Parapraph links are represented its form (link_title) and the start/end positions of strings
+            # Parapraph links are represented as (link_title) and the start/end positions of strings
             # (link_start, link_end).
             paragraph_links = []
             for link in paragraph.wiki_links:
@@ -348,7 +348,7 @@ class WikipediaPretrainingDataset(object):
                     # get the IDs based on the word list
                     word_ids = _tokenizer.convert_tokens_to_ids(words)
                     assert _min_sentence_length <= len(word_ids) <= _max_num_tokens
-                    # get the entity IDs from our enttiy vocab
+                    # get the entity IDs from our entity vocab
                     entity_ids = [id_ for id_, _, _, in links]
                     assert len(entity_ids) <= _max_entity_length
                     # this is the position of the entities in the text? 
