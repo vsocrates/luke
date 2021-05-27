@@ -228,6 +228,8 @@ class LukePretrainingBatchWorker(multiprocessing.Process):
             entity_segment_ids=np.zeros(self._max_entity_length, dtype=np.int),
         )
 
+        print(ret)
+
         masked_positions = []
         if self._masked_entity_prob != 0.0:
             num_to_predict = max(1, int(round(entity_ids.size * self._masked_entity_prob)))
