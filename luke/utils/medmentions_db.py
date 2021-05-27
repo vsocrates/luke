@@ -82,6 +82,9 @@ class MedMentionsDB(object):
             entities = []
             for entity in article_data[2:]:
                 entity_entry = entity.split("\t")[1:]
+                # just in case check we don't have an ''
+                if not entity_entry:
+                    continue
                 entity_entry[0] = int(entity_entry[0])
                 entity_entry[1] = int(entity_entry[1])
                 entities.append(entity_entry)

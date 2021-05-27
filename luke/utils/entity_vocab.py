@@ -159,7 +159,7 @@ class EntityVocab(object):
                     pbar.update()
         
         # sanity check below, should be 250 for 0.txt test file
-        assert sum(counter.values()) == 250
+        # assert sum(counter.values()) == 250
 
         title_dict = OrderedDict()
         title_dict[PAD_TOKEN] = 0

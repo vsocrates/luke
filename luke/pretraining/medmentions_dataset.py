@@ -89,7 +89,7 @@ class MedMentionsPretrainingDataset(object):
 
     @property
     def tokenizer(self):
-        tokenizer_class_name = self.metadata.get("tokenizer_class", "BertTokenzier")
+        tokenizer_class_name = self.metadata.get("tokenizer_class", "BertTokenizer")
         if tokenizer_class_name == "XLMRobertaTokenizer":
             import luke.utils.word_tokenizer as tokenizer_module
         else:
@@ -131,11 +131,12 @@ class MedMentionsPretrainingDataset(object):
         dataset = dataset.map(functools.partial(tf.io.parse_single_example, features=features))
         it = tf.compat.v1.data.make_one_shot_iterator(dataset)
         it = it.get_next()
-
+        print(it)
         with tf.compat.v1.Session() as sess:
             try:
                 while True:
                     obj = sess.run(it)
+                    print(obj)
                     yield dict(
                         page_id=obj["page_id"][0],
                         word_ids=obj["word_ids"],
@@ -143,7 +144,7 @@ class MedMentionsPretrainingDataset(object):
                         entity_position_ids=obj["entity_position_ids"].reshape(-1, self.metadata["max_mention_length"]),
                     )
             except tf.errors.OutOfRangeError:
-                pass
+                print("Why would you pass this error, we in here")
 
     @classmethod
     def build(
@@ -201,6 +202,7 @@ class MedMentionsPretrainingDataset(object):
                         for data in ret:
                             writer.write(data)
                             number_of_items += 1
+                            # print("written data") 
                         pbar.update()
 
         with open(os.path.join(output_dir, METADATA_FILE), "w") as metadata_file:
@@ -249,7 +251,7 @@ class MedMentionsPretrainingDataset(object):
 
     @staticmethod
     def _process_page(pmid: str):
-        
+        # print("start _process_page", pmid) 
         if _entity_vocab.page_contains(pmid):
             # page_id = _entity_vocab.get_id(pmid)
             # TODO: verify if this is okay
@@ -271,22 +273,23 @@ class MedMentionsPretrainingDataset(object):
             else:
                 return _tokenizer.tokenize(text)
 
+        # print("start get data")
         # we concatenate the title and abstract like they do in MedMentions to get the entity spans to match
         page_data = _medmentions_db.get_data()[pmid]
         paragraph_text = page_data['title'] + " " + page_data['abstract']
-
+        # print("end get data")
         # First, get paragraph links.
         # Parapraph links are represented as (link_title) and the start/end positions of strings
         # (link_start, link_end).
         paragraph_links = []
+        # print("start loop through entities")
         for entity in page_data['entities']:
-            
-            
+                
             if _entity_vocab.contains(entity[4], _language):
                 paragraph_links.append((entity[4], entity[0], entity[1]))
             elif _include_unk_entities:
                 paragraph_links.append((UNK_TOKEN, entity[0], entity[1]))
-
+        # print("stop loop through entities")
         sent_spans = _sentence_tokenizer.span_tokenize(paragraph_text.rstrip())
         for sent_start, sent_end in sent_spans:
             cur = sent_start
@@ -337,7 +340,7 @@ class MedMentionsPretrainingDataset(object):
             if len(sent_words) < _min_sentence_length or len(sent_words) > _max_num_tokens:
                 continue
             sentences.append((sent_words, sent_links))
-        
+        # print("finish sent spans")
         ret = []
         words = []
         links = []
@@ -376,4 +379,5 @@ class MedMentionsPretrainingDataset(object):
 
                 words = []
                 links = []
+        # print("about to return")
         return ret
