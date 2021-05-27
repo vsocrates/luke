@@ -114,15 +114,16 @@ class LukePretrainingBatchWorker(multiprocessing.Process):
         self._mask_id = self._tokenizer.convert_tokens_to_ids(self._tokenizer.mask_token)
         self._pad_id = self._tokenizer.convert_tokens_to_ids(self._tokenizer.pad_token)
 
+        # print("HERER IS HTE BIG ONE: ", self._pretraining_dataset.entity_vocab.vocab)
         self._entity_mask_id = self._pretraining_dataset.entity_vocab.get_id(
             MASK_TOKEN, self._pretraining_dataset.language
         )
+
 
         buf = []
         max_word_len = 1
         max_entity_len = 1
         for item in self._pretraining_dataset.create_iterator(**self._dataset_kwargs):
-            print("item", item)
             entity_feat, masked_entity_positions = self._create_entity_features(
                 item["entity_ids"], item["entity_position_ids"]
             )
@@ -228,9 +229,7 @@ class LukePretrainingBatchWorker(multiprocessing.Process):
             entity_attention_mask=entity_attention_mask,
             entity_segment_ids=np.zeros(self._max_entity_length, dtype=np.int),
         )
-        print("ret")
-        print(ret)
-        print("entity_ids", entity_ids)
+
         masked_positions = []
         if self._masked_entity_prob != 0.0:
             num_to_predict = max(1, int(round(entity_ids.size * self._masked_entity_prob)))

@@ -85,7 +85,9 @@ class MedMentionsPretrainingDataset(object):
 
     @property
     def language(self):
-        return self.metadata.get("language", None)
+        # TODO: figure out why this doesn't work
+        # changed this from self.metadata.get("language", None)
+        return self.metadata.get("language", "eng")
 
     @property
     def tokenizer(self):
@@ -94,8 +96,8 @@ class MedMentionsPretrainingDataset(object):
             import luke.utils.word_tokenizer as tokenizer_module
         else:
             import transformers as tokenizer_module
-        print("in tokenizer method of Pretraining Dataset")
-        print(tokenizer_class_name)        
+        # print("in tokenizer method of Pretraining Dataset")
+        # print(tokenizer_class_name)        
         tokenizer_class = getattr(tokenizer_module, tokenizer_class_name)
         return tokenizer_class.from_pretrained(self._dataset_dir)
 
@@ -131,12 +133,10 @@ class MedMentionsPretrainingDataset(object):
         dataset = dataset.map(functools.partial(tf.io.parse_single_example, features=features))
         it = tf.compat.v1.data.make_one_shot_iterator(dataset)
         it = it.get_next()
-        print(it)
         with tf.compat.v1.Session() as sess:
             try:
                 while True:
                     obj = sess.run(it)
-                    print(obj)
                     yield dict(
                         page_id=obj["page_id"][0],
                         word_ids=obj["word_ids"],
@@ -144,7 +144,7 @@ class MedMentionsPretrainingDataset(object):
                         entity_position_ids=obj["entity_position_ids"].reshape(-1, self.metadata["max_mention_length"]),
                     )
             except tf.errors.OutOfRangeError:
-                print("Why would you pass this error, we in here")
+                print("Why would you pass this error, we in medmentions_dataset.py create_iterator")
 
     @classmethod
     def build(
