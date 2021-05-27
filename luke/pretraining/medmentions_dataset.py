@@ -89,14 +89,14 @@ class MedMentionsPretrainingDataset(object):
 
     @property
     def tokenizer(self):
-        tokenizer_class_name = self.metadata.get("tokenizer_class", "")
+        tokenizer_class_name = self.metadata.get("tokenizer_class", "BertTokenzier")
         if tokenizer_class_name == "XLMRobertaTokenizer":
             import luke.utils.word_tokenizer as tokenizer_module
         else:
             import transformers as tokenizer_module
-        tokenizer_class = getattr(tokenizer_module, tokenizer_class_name)
         print("in tokenizer method of Pretraining Dataset")
-        print(tokenizer_class)
+        print(tokenizer_class_name)        
+        tokenizer_class = getattr(tokenizer_module, tokenizer_class_name)
         return tokenizer_class.from_pretrained(self._dataset_dir)
 
     @property
