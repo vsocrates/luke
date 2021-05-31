@@ -31,18 +31,24 @@ logger = logging.getLogger(__name__)
 
 
 @click.command()
+# file inputs
 @click.argument("dataset_dir")
 @click.argument("output_dir", type=click.Path())
-@click.option("--sampling-smoothing", default=0.7)
+# physical resource inputs
 @click.option("--parallel", is_flag=True)
 @click.option("--cpu", is_flag=True)
+# bert model name
 @click.option("--bert-model-name", default="roberta-large")
+# entity embedding size
 @click.option("--entity-emb-size", default=256, type=int)
 @click.option("--batch-size", default=2048)
+# the number of gradients to compute the average over
 @click.option("--gradient-accumulation-steps", default=1024)
 @click.option("--learning-rate", default=1e-5)
 @click.option("--lr-schedule", type=click.Choice(["warmup_constant", "warmup_linear"]), default="warmup_linear")
+# the number of steps to warm up before the LR starts to decrease
 @click.option("--warmup-steps", default=2500)
+# Adam parameters
 @click.option("--adam-b1", default=0.9)
 @click.option("--adam-b2", default=0.999)
 @click.option("--adam-eps", default=1e-6)
@@ -178,6 +184,7 @@ def run_pretraining(args):
     dataset_size = sum([len(d) for d in dataset_list])
     num_train_steps_per_epoch = math.ceil(dataset_size / args.batch_size)
     num_train_steps = math.ceil(dataset_size / args.batch_size * args.num_epochs)
+    print("The Number of Training Steps is: ", num_train_steps)
     train_batch_size = int(args.batch_size / args.gradient_accumulation_steps / num_workers)
 
     entity_vocab = dataset_list[0].entity_vocab
@@ -287,6 +294,7 @@ def run_pretraining(args):
         scheduler = get_linear_schedule_with_warmup(
             optimizer, num_warmup_steps=args.warmup_steps, num_training_steps=num_train_steps
         )
+        print(f"Scheduler data: Warmup steps: {args.warmup_steps}; total training steps: {num_train_steps}")
     else:
         raise RuntimeError(f"Invalid scheduler: {args.lr_schedule}")
 
