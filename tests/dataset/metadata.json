@@ -37,7 +37,6 @@
     "parallel": false,
     "random_entity_prob": 0.0,
     "random_word_prob": 0.1,
-    "sampling_smoothing": 0.7,
     "save_interval_sec": null,
     "save_interval_steps": null,
     "scheduler_file": null,
