@@ -20,12 +20,15 @@ from transformers import (
     get_linear_schedule_with_warmup,
 )
 
+from torch.optim import AdamW
+
 from luke.model import LukeConfig
 from luke.optimization import LukeAdamW
 from luke.pretraining.batch_generator import LukePretrainingBatchGenerator
 from luke.pretraining.medmentions_dataset import MedMentionsPretrainingDataset
 from luke.pretraining.model import LukePretrainingModel
 from luke.utils.model_utils import ENTITY_VOCAB_FILE
+
 
 logger = logging.getLogger(__name__)
 
@@ -49,38 +52,58 @@ logger = logging.getLogger(__name__)
 # the number of steps to warm up before the LR starts to decrease
 @click.option("--warmup-steps", default=2500)
 # Adam parameters
+@click.option("--original-adam", is_flag=True)
 @click.option("--adam-b1", default=0.9)
 @click.option("--adam-b2", default=0.999)
 @click.option("--adam-eps", default=1e-6)
 @click.option("--weight-decay", default=0.01)
+# gradient accumulation step
 @click.option("--max-grad-norm", default=0.0)
+# masked entity probs
 @click.option("--masked-lm-prob", default=0.15)
 @click.option("--masked-entity-prob", default=0.15)
+# mask the whole word instaed of subwords
 @click.option("--whole-word-masking/--subword-masking", default=True)
+# probability of actually masking in masking function
 @click.option("--unmasked-word-prob", default=0.1)
+# prob of masking with random word
 @click.option("--random-word-prob", default=0.1)
+# same as above for entities
 @click.option("--unmasked-entity-prob", default=0.0)
 @click.option("--random-entity-prob", default=0.0)
+# mask words in the entity span as well, or skip them
 @click.option("--mask-words-in-entity-span", is_flag=True)
+# fix the weights of the model
 @click.option("--fix-bert-weights", is_flag=True)
+# where to average the weights
 @click.option("--grad-avg-on-cpu/--grad-avg-on-gpu", default=False)
+# num epochs
 @click.option("--num-epochs", default=20)
+# not used but steps over all epochs?
 @click.option("--global-step", default=0)
+# apex mixed precision params
 @click.option("--fp16", is_flag=True)
 @click.option("--fp16-opt-level", default="O2", type=click.Choice(["O1", "O2"]))
 @click.option("--fp16-master-weights/--fp16-no-master-weights", default=True)
 @click.option("--fp16-min-loss-scale", default=1)
 @click.option("--fp16-max-loss-scale", default=4)
+# number of the particular device we use (either GPU or CPU), device ordinal from PyTorch
 @click.option("--local-rank", "--local_rank", default=-1)
+# nodes used
 @click.option("--num-nodes", default=1)
+# rank of node
 @click.option("--node-rank", default=0)
+# parallel settings
 @click.option("--master-addr", default="127.0.0.1")
 @click.option("--master-port", default="29502")
+# log directory
 @click.option("--log-dir", type=click.Path(), default=None)
+# files for previous resuming of model
 @click.option("--model-file", type=click.Path(exists=True), default=None)
 @click.option("--optimizer-file", type=click.Path(exists=True), default=None)
 @click.option("--scheduler-file", type=click.Path(exists=True), default=None)
 @click.option("--amp-file", type=click.Path(exists=True), default=None)
+# interval to save model on
 @click.option("--save-interval-sec", default=None, type=int)
 @click.option("--save-interval-steps", default=None, type=int)
 def pretrain(**kwargs):
@@ -244,13 +267,21 @@ def run_pretraining(args):
         {"params": [p for n, p in param_optimizer if any(nd in n for nd in no_decay)], "weight_decay": 0.0},
     ]
 
-    optimizer = LukeAdamW(
-        optimizer_parameters,
-        lr=args.learning_rate,
-        betas=(args.adam_b1, args.adam_b2),
-        eps=args.adam_eps,
-        grad_avg_device=torch.device("cpu") if args.grad_avg_on_cpu else device,
-    )
+    if args.original_adam:
+        optimizer = AdamW(
+            optimizer_parameters,
+            lr=args.learning_rate,
+            betas=(args.adam_b1, args.adam_b2),
+            eps=args.adam_eps,
+        )        
+    else:
+        optimizer = LukeAdamW(
+            optimizer_parameters,
+            lr=args.learning_rate,
+            betas=(args.adam_b1, args.adam_b2),
+            eps=args.adam_eps,
+            grad_avg_device=torch.device("cpu") if args.grad_avg_on_cpu else device,
+        )
 
     if args.fp16:
         from apex import amp
