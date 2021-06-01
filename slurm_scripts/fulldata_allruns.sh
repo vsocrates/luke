@@ -1,0 +1,7 @@
+sbatch pretrain_luke_medmentions_fulldata1.slurm
+sbatch pretrain_luke_medmentions_fulldata3.slurm
+sbatch pretrain_luke_medmentions_fulldata_longrun.slurm	
+sbatch pretrain_luke_medmentions.slurm
+sbatch pretrain_luke_medmentions_fulldata2.slurm  
+sbatch pretrain_luke_medmentions_fulldata4.slurm  
+sbatch pretrain_luke_medmentions_fulldata.slurm

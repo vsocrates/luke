@@ -1,0 +1,135 @@
+Restoring modules from user's fosscuda111, for system: "farnam-rhel7"
+Built MedMentions DB
+  0%|          | 0/4392 [00:00<?, ?it/s] 59%|█████▉    | 2601/4392 [00:00<00:00, 5121.89it/s] 98%|█████████▊| 4293/4392 [00:01<00:00, 4425.29it/s]100%|██████████| 4392/4392 [00:01<00:00, 4329.57it/s]
+Built Entity Vocab
+  0%|          | 0/4392 [00:00<?, ?it/s]  0%|          | 1/4392 [01:12<87:59:08, 72.14s/it]  2%|▏         | 101/4392 [01:16<60:12:04, 50.51s/it]  7%|▋         | 301/4392 [01:28<40:11:54, 35.37s/it]  9%|▉         | 401/4392 [01:31<27:27:30, 24.77s/it] 16%|█▌        | 711/4392 [01:31<17:43:41, 17.34s/it] 18%|█▊        | 800/4392 [01:50<17:17:58, 17.34s/it] 18%|█▊        | 801/4392 [02:34<12:19:02, 12.35s/it] 24%|██▍       | 1051/4392 [02:34<8:01:19,  8.64s/it] 30%|██▉       | 1301/4392 [02:48<5:12:34,  6.07s/it] 32%|███▏      | 1401/4392 [02:49<3:31:52,  4.25s/it] 34%|███▍      | 1501/4392 [02:52<2:23:48,  2.98s/it] 36%|███▋      | 1600/4392 [03:10<2:18:52,  2.98s/it] 36%|███▋      | 1601/4392 [03:33<1:42:51,  2.21s/it] 41%|████      | 1801/4392 [03:37<1:07:04,  1.55s/it] 43%|████▎     | 1901/4392 [03:46<46:22,  1.12s/it]   46%|████▌     | 2001/4392 [03:50<31:33,  1.26it/s] 48%|████▊     | 2100/4392 [04:10<30:14,  1.26it/s] 48%|████▊     | 2101/4392 [04:24<25:05,  1.52it/s] 54%|█████▍    | 2377/4392 [04:24<15:27,  2.17it/s] 55%|█████▍    | 2400/4392 [04:40<15:16,  2.17it/s] 55%|█████▍    | 2401/4392 [04:42<17:52,  1.86it/s] 57%|█████▋    | 2501/4392 [04:43<11:58,  2.63it/s] 59%|█████▉    | 2601/4392 [04:51<08:41,  3.43it/s] 61%|██████▏   | 2701/4392 [04:52<05:49,  4.84it/s] 64%|██████▍   | 2800/4392 [05:10<05:29,  4.84it/s] 64%|██████▍   | 2801/4392 [05:18<05:54,  4.49it/s] 68%|██████▊   | 3001/4392 [05:53<04:50,  4.78it/s] 71%|███████   | 3101/4392 [05:54<03:09,  6.81it/s] 73%|███████▎  | 3201/4392 [06:03<02:35,  7.68it/s] 80%|███████▉  | 3497/4392 [06:03<01:21, 10.95it/s] 82%|████████▏ | 3594/4392 [06:16<01:23,  9.54it/s] 84%|████████▍ | 3701/4392 [06:21<01:01, 11.28it/s] 87%|████████▋ | 3800/4392 [06:40<00:52, 11.28it/s] 87%|████████▋ | 3801/4392 [06:48<01:23,  7.04it/s] 89%|████████▉ | 3901/4392 [07:01<01:07,  7.31it/s] 91%|█████████ | 4001/4392 [07:04<00:41,  9.34it/s] 96%|█████████▌| 4201/4392 [07:08<00:15, 12.56it/s]100%|██████████| 4392/4392 [07:08<00:00, 10.26it/s]
+Built Pretraining Dataset
+pretraining num steps: 4392
+[2021-06-01 02:02:52,455] [INFO] Starting pretraining with the following arguments: {
+  "adam_b1": 0.9,
+  "adam_b2": 0.999,
+  "adam_eps": 1e-06,
+  "amp_file": null,
+  "batch_size": 1024,
+  "bert_model_name": "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract",
+  "cpu": false,
+  "dataset_dir": "/home/vs428/project/MedMentions/full/pretraining",
+  "entity_emb_size": 256,
+  "fix_bert_weights": false,
+  "fp16": false,
+  "fp16_master_weights": true,
+  "fp16_max_loss_scale": 4,
+  "fp16_min_loss_scale": 1,
+  "fp16_opt_level": "O2",
+  "global_step": 0,
+  "grad_avg_on_cpu": false,
+  "gradient_accumulation_steps": 512,
+  "learning_rate": 1e-05,
+  "local_rank": -1,
+  "log_dir": "runs/fullmedmentions_warmup800_wholewordmasking",
+  "lr_schedule": "warmup_linear",
+  "mask_words_in_entity_span": false,
+  "masked_entity_prob": 0.15,
+  "masked_lm_prob": 0.15,
+  "master_addr": "127.0.0.1",
+  "master_port": "29502",
+  "max_grad_norm": 0.0,
+  "model_file": null,
+  "node_rank": 0,
+  "num_epochs": 20,
+  "num_nodes": 1,
+  "optimizer_file": null,
+  "output_dir": "/home/vs428/project/MedMentions/full/pretraining",
+  "parallel": false,
+  "random_entity_prob": 0.0,
+  "random_word_prob": 0.1,
+  "sampling_smoothing": 0.7,
+  "save_interval_sec": null,
+  "save_interval_steps": null,
+  "scheduler_file": null,
+  "unmasked_entity_prob": 0.0,
+  "unmasked_word_prob": 0.1,
+  "warmup_steps": 800,
+  "weight_decay": 0.01,
+  "whole_word_masking": true
+} (run_pretraining@train.py:167)
+[2021-06-01 02:02:55,613] [INFO] Model configuration: LukeConfig {
+  "architectures": null,
+  "attention_probs_dropout_prob": 0.1,
+  "bert_model_name": "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract",
+  "bos_token_id": 0,
+  "do_sample": false,
+  "entity_emb_size": 256,
+  "entity_vocab_size": 34727,
+  "eos_token_ids": 0,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-12,
+  "length_penalty": 1.0,
+  "max_length": 20,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_beams": 1,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "num_return_sequences": 1,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 0,
+  "pruned_heads": {},
+  "repetition_penalty": 1.0,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0,
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "use_bfloat16": false,
+  "vocab_size": 30522
+}
+ (run_pretraining@train.py:218)
+  0%|          | 0/89 [00:00<?, ?it/s]Why would you pass this error, we in medmentions_dataset.py create_iterator
+Traceback (most recent call last):
+  File "/gpfs/ysm/home/vs428/Documents/luke/luke/pretraining/batch_generator.py", line 61, in generate_batches
+    yield output_queue.get(True, 1)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/multiprocessing/queues.py", line 105, in get
+    raise Empty
+queue.Empty
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cli.py", line 77, in <module>
+    cli()
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 829, in __call__
+    return self.main(*args, **kwargs)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 782, in main
+    rv = self.invoke(ctx)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 1259, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 1066, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 610, in invoke
+    return callback(*args, **kwargs)
+  File "/gpfs/ysm/home/vs428/Documents/luke/luke/pretraining/train.py", line 81, in pretrain
+    run_pretraining(Namespace(**kwargs))
+  File "/gpfs/ysm/home/vs428/Documents/luke/luke/pretraining/train.py", line 350, in run_pretraining
+    for batch in batch_generator.generate_batches():
+  File "/gpfs/ysm/home/vs428/Documents/luke/luke/pretraining/batch_generator.py", line 65, in generate_batches
+    raise RuntimeError("Worker exited unexpectedly")
+RuntimeError: Worker exited unexpectedly
+  0%|          | 0/89 [00:12<?, ?it/s]Ran Pretraining

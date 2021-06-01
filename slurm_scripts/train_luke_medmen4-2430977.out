@@ -1,0 +1,105 @@
+Restoring modules from user's fosscuda111, for system: "farnam-rhel7"
+Built MedMentions DB
+  0%|          | 0/4392 [00:00<?, ?it/s] 57%|█████▋    | 2501/4392 [00:00<00:00, 4864.15it/s] 93%|█████████▎| 4093/4392 [00:01<00:00, 4102.59it/s]100%|██████████| 4392/4392 [00:01<00:00, 4028.71it/s]
+Built Entity Vocab
+  0%|          | 0/4392 [00:00<?, ?it/s]  0%|          | 1/4392 [01:15<91:33:51, 75.07s/it]  5%|▍         | 201/4392 [01:32<61:12:20, 52.57s/it] 11%|█         | 474/4392 [01:32<40:03:11, 36.80s/it] 17%|█▋        | 746/4392 [01:32<26:05:27, 25.76s/it] 18%|█▊        | 800/4392 [01:50<25:42:16, 25.76s/it] 18%|█▊        | 801/4392 [02:17<18:14:02, 18.28s/it] 21%|██        | 901/4392 [02:30<12:26:43, 12.83s/it] 23%|██▎       | 1001/4392 [02:32<8:28:01,  8.99s/it] 29%|██▉       | 1276/4392 [02:32<5:26:47,  6.29s/it] 31%|███       | 1356/4392 [02:35<3:43:31,  4.42s/it] 32%|███▏      | 1400/4392 [02:50<3:40:17,  4.42s/it] 32%|███▏      | 1401/4392 [02:55<2:40:36,  3.22s/it] 34%|███▍      | 1501/4392 [02:59<1:49:16,  2.27s/it] 36%|███▋      | 1601/4392 [03:39<1:19:28,  1.71s/it] 41%|████      | 1801/4392 [03:50<52:21,  1.21s/it]   47%|████▋     | 2083/4392 [03:50<32:39,  1.18it/s] 50%|█████     | 2200/4392 [04:10<31:00,  1.18it/s] 50%|█████     | 2201/4392 [04:28<25:09,  1.45it/s] 55%|█████▍    | 2401/4392 [04:42<16:45,  1.98it/s] 57%|█████▋    | 2501/4392 [04:48<11:39,  2.70it/s] 63%|██████▎   | 2759/4392 [04:48<07:02,  3.86it/s] 64%|██████▍   | 2800/4392 [05:00<06:52,  3.86it/s] 64%|██████▍   | 2801/4392 [05:01<07:18,  3.62it/s] 66%|██████▌   | 2901/4392 [05:13<05:41,  4.37it/s] 68%|██████▊   | 3001/4392 [06:02<07:05,  3.27it/s] 75%|███████▌  | 3302/4392 [06:02<03:53,  4.66it/s] 82%|████████▏ | 3581/4392 [06:02<02:01,  6.66it/s] 84%|████████▍ | 3700/4392 [06:20<01:43,  6.66it/s] 84%|████████▍ | 3701/4392 [06:23<01:48,  6.37it/s] 87%|████████▋ | 3801/4392 [06:56<02:04,  4.76it/s] 92%|█████████▏| 4024/4392 [06:56<00:54,  6.80it/s] 93%|█████████▎| 4101/4392 [07:06<00:40,  7.12it/s]100%|██████████| 4392/4392 [07:06<00:00, 10.30it/s]
+Built Pretraining Dataset
+pretraining num steps: 4392
+[2021-06-01 02:12:05,821] [INFO] Starting pretraining with the following arguments: {
+  "adam_b1": 0.9,
+  "adam_b2": 0.999,
+  "adam_eps": 1e-06,
+  "amp_file": null,
+  "batch_size": 1024,
+  "bert_model_name": "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract",
+  "cpu": false,
+  "dataset_dir": "/home/vs428/project/MedMentions/full/pretraining",
+  "entity_emb_size": 160,
+  "fix_bert_weights": false,
+  "fp16": false,
+  "fp16_master_weights": true,
+  "fp16_max_loss_scale": 4,
+  "fp16_min_loss_scale": 1,
+  "fp16_opt_level": "O2",
+  "global_step": 0,
+  "grad_avg_on_cpu": false,
+  "gradient_accumulation_steps": 512,
+  "learning_rate": 1e-05,
+  "local_rank": -1,
+  "log_dir": "runs/fullmedmentions_warmup800_embedsize160",
+  "lr_schedule": "warmup_linear",
+  "mask_words_in_entity_span": false,
+  "masked_entity_prob": 0.15,
+  "masked_lm_prob": 0.15,
+  "master_addr": "127.0.0.1",
+  "master_port": "29502",
+  "max_grad_norm": 0.0,
+  "model_file": null,
+  "node_rank": 0,
+  "num_epochs": 20,
+  "num_nodes": 1,
+  "optimizer_file": null,
+  "output_dir": "/home/vs428/project/MedMentions/full/pretraining",
+  "parallel": false,
+  "random_entity_prob": 0.0,
+  "random_word_prob": 0.1,
+  "sampling_smoothing": 0.7,
+  "save_interval_sec": null,
+  "save_interval_steps": null,
+  "scheduler_file": null,
+  "unmasked_entity_prob": 0.0,
+  "unmasked_word_prob": 0.1,
+  "warmup_steps": 800,
+  "weight_decay": 0.01,
+  "whole_word_masking": true
+} (run_pretraining@train.py:167)
+[2021-06-01 02:12:08,125] [INFO] Model configuration: LukeConfig {
+  "architectures": null,
+  "attention_probs_dropout_prob": 0.1,
+  "bert_model_name": "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract",
+  "bos_token_id": 0,
+  "do_sample": false,
+  "entity_emb_size": 160,
+  "entity_vocab_size": 34727,
+  "eos_token_ids": 0,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-12,
+  "length_penalty": 1.0,
+  "max_length": 20,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_beams": 1,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "num_return_sequences": 1,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 0,
+  "pruned_heads": {},
+  "repetition_penalty": 1.0,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0,
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "use_bfloat16": false,
+  "vocab_size": 30522
+}
+ (run_pretraining@train.py:218)
+  0%|          | 0/89 [00:00<?, ?it/s]epoch: 0 loss: 21.3606 time: 02:13:22:   0%|          | 0/89 [01:07<?, ?it/s]epoch: 0 loss: 21.3606 time: 02:13:22:   1%|          | 1/89 [01:07<1:39:42, 67.99s/it]epoch: 0 loss: 21.3424 time: 02:14:27:   1%|          | 1/89 [02:12<1:39:42, 67.99s/it]epoch: 0 loss: 21.3424 time: 02:14:27:   2%|▏         | 2/89 [02:12<1:37:10, 67.02s/it]epoch: 0 loss: 21.3649 time: 02:15:33:   2%|▏         | 2/89 [03:18<1:37:10, 67.02s/it]epoch: 0 loss: 21.3649 time: 02:15:33:   3%|▎         | 3/89 [03:18<1:35:28, 66.61s/it]

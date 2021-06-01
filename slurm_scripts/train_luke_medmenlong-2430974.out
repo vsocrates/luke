@@ -1,0 +1,37 @@
+Restoring modules from user's fosscuda111, for system: "farnam-rhel7"
+Built MedMentions DB
+  0%|          | 0/4392 [00:00<?, ?it/s] 52%|█████▏    | 2301/4392 [00:00<00:00, 4556.74it/s] 93%|█████████▎| 4093/4392 [00:01<00:00, 4164.72it/s]100%|██████████| 4392/4392 [00:01<00:00, 3840.37it/s]
+Built Entity Vocab
+Traceback (most recent call last):
+  File "cli.py", line 77, in <module>
+    cli()
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 829, in __call__
+    return self.main(*args, **kwargs)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 782, in main
+    rv = self.invoke(ctx)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 1259, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 1066, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/site-packages/click/core.py", line 610, in invoke
+    return callback(*args, **kwargs)
+  File "/gpfs/ysm/home/vs428/Documents/luke/luke/pretraining/medmentions_dataset.py", line 52, in build_medmentions_pretraining_dataset
+    medmentions_db = MedMentionsDB(medmentions_db_file)
+  File "/gpfs/ysm/home/vs428/Documents/luke/luke/utils/medmentions_db.py", line 28, in __init__
+    self.data = json.load(f)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/json/__init__.py", line 299, in load
+    parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/json/__init__.py", line 354, in loads
+    return _default_decoder.decode(s)
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/gpfs/ysm/project/rtaylor/vs428/conda_envs/el_env111/lib/python3.6/json/decoder.py", line 355, in raw_decode
+    obj, end = self.scan_once(s, idx)
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 1 column 16757172 (char 16757171)
+Built Pretraining Dataset
+pretraining num steps: 4392
+Usage: cli.py pretrain [OPTIONS] DATASET_DIR OUTPUT_DIR
+Try 'cli.py pretrain --help' for help.
+
+Error: no such option: --original-adam
+Ran Pretraining
